@@ -15,6 +15,27 @@ def init_db():
     conn.commit()
     conn.close()
 
+def init_users():
+    conn = sqlite3.connect('olx.db')
+    c = conn.cursor()
+    c.execute('''
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY,
+                name TEXT NOT NULL,
+                password TEXT NOT NULL
+            )
+        ''')
+    conn.commit()
+    conn.close()
+
+def add_users(name, password):
+    conn = sqlite3.connect('olx.db')
+    c = conn.cursor()
+    c.execute('''
+        INSERT INTO users (name, password) VALUES (?, ?)
+    ''', (name, password))
+    conn.commit()
+    conn.close()
 def convert_to_binary_data(filename):
     with open(filename, 'rb') as file:
         blob_data = file.read()
@@ -43,10 +64,11 @@ def retrieve_image(slave_id, output_path):
     conn.close()
 
 # Инициализация базы данных
-init_db()
-
+# init_db()
+init_users()
 # Добавление новой записи с изображением
 add_slaves("vlad", "7", "cant python", "./imeges/sclave1.png")
 
 # Извлечение и сохранение изображения в файл
 # retrieve_image(1, "output_image.jpg")
+add_users("egor","ee22")
